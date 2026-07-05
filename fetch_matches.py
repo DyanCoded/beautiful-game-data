@@ -11,6 +11,16 @@ response = requests.get(f"{BASE_URL}/competitions/WC/matches", headers=headers)
 
 data = response.json()
 
-# Printing the first match to see what the data looks like
-import json
-print(json.dumps(data["matches"][0], indent=2))
+for match in data["matches"]:
+    home = match["homeTeam"]["name"] or "TBD"
+    away = match["awayTeam"]["name"] or "TBD"
+    home_score = match["score"]["fullTime"]["home"]
+    away_score = match["score"]["fullTime"]["away"]
+    status = match["status"]
+
+    if home_score is None:
+        score = "vs"
+    else:
+        score = f"{home_score} - {away_score}"
+
+    print(f"{home} {score} {away} ({status})")
